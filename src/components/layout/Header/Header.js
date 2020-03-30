@@ -1,23 +1,43 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import clsx from 'clsx';
+import clsx from "clsx";
+
+import Navbar from "react-bootstrap/Navbar";
 
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
-import styles from './Header.module.scss';
+import styles from "./Header.module.scss";
 
-const Component = ({className, children}) => (
+const Component = ({ className, children }) => (
   <div className={clsx(className, styles.root)}>
-    <h2>Header</h2>
+    <Navbar>
+      <NavLink
+        color="inherit"
+        exact
+        to={`${process.env.PUBLIC_URL}/`}
+        activeClassName="active"
+      >
+        Home
+      </NavLink>
+      <NavLink
+        color="inherit"
+        exact
+        to={`${process.env.PUBLIC_URL}/Login`}
+        activeClassName="active"
+      >
+        Login
+      </NavLink>
+    </Navbar>
     {children}
   </div>
 );
 
 Component.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 // const mapStateToProps = state => ({
@@ -31,7 +51,6 @@ Component.propTypes = {
 // const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  Component as Header,
   // Container as Header,
-  Component as HeaderComponent,
+  Component as HeaderComponent
 };

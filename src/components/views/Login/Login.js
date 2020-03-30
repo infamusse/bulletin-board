@@ -1,18 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import clsx from "clsx";
 
-import { HeaderComponent } from "../Header/Header";
-
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
-import styles from "./MainLayout.module.scss";
+import styles from "./Login.module.scss";
 
 const Component = ({ className, children }) => (
   <div className={clsx(className, styles.root)}>
-    <HeaderComponent />
+    <h2>Login</h2>
+    <Link
+      className={clsx(styles.loginBtn, styles.loginBtnGoogle)}
+      exact
+      to={`${process.env.PUBLIC_URL}/auth/google`}
+    >
+      Login with Google
+    </Link>
     {children}
   </div>
 );
@@ -33,7 +39,7 @@ Component.propTypes = {
 // const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  Component as MainLayout,
-  // Container as MainLayout,
-  Component as MainLayoutComponent
+  Component as Login,
+  // Container as Login,
+  Component as LoginComponent
 };

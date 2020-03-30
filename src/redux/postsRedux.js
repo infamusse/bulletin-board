@@ -1,14 +1,14 @@
 /* selectors */
-export const getAll = ({posts}) => posts.data;
+export const getAll = ({ posts }) => posts.data.posts;
 
 /* action name creator */
-const reducerName = 'posts';
+const reducerName = "posts";
 const createActionName = name => `app/${reducerName}/${name}`;
 
 /* action types */
-const FETCH_START = createActionName('FETCH_START');
-const FETCH_SUCCESS = createActionName('FETCH_SUCCESS');
-const FETCH_ERROR = createActionName('FETCH_ERROR');
+const FETCH_START = createActionName("FETCH_START");
+const FETCH_SUCCESS = createActionName("FETCH_SUCCESS");
+const FETCH_ERROR = createActionName("FETCH_ERROR");
 
 /* action creators */
 export const fetchStarted = payload => ({ payload, type: FETCH_START });
@@ -25,8 +25,8 @@ export const reducer = (statePart = [], action = {}) => {
         ...statePart,
         loading: {
           active: true,
-          error: false,
-        },
+          error: false
+        }
       };
     }
     case FETCH_SUCCESS: {
@@ -34,9 +34,9 @@ export const reducer = (statePart = [], action = {}) => {
         ...statePart,
         loading: {
           active: false,
-          error: false,
+          error: false
         },
-        data: action.payload,
+        data: action.payload
       };
     }
     case FETCH_ERROR: {
@@ -44,8 +44,8 @@ export const reducer = (statePart = [], action = {}) => {
         ...statePart,
         loading: {
           active: false,
-          error: action.payload,
-        },
+          error: action.payload
+        }
       };
     }
     default:

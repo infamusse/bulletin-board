@@ -1,4 +1,6 @@
-@import '../../../styles/settings.scss';
+@import "../../../styles/settings.scss";
 
-// .root {
-// }
+.cardContainer {
+  padding: 0 15%;
+  flex-wrap: wrap;
+}
