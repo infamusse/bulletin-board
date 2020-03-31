@@ -10,25 +10,28 @@ import Navbar from "react-bootstrap/Navbar";
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from "./Header.module.scss";
+import Button from "react-bootstrap/Button";
 
 const Component = ({ className, children }) => (
   <div className={clsx(className, styles.root)}>
     <Navbar>
       <NavLink
+        className={styles.navLink}
         color="inherit"
         exact
         to={`${process.env.PUBLIC_URL}/`}
         activeClassName="active"
       >
-        Home
+        <Button variant="light">Home</Button>
       </NavLink>
       <NavLink
+        className={styles.navLink}
         color="inherit"
         exact
         to={`${process.env.PUBLIC_URL}/Login`}
         activeClassName="active"
       >
-        Login
+        <Button variant="light">Login</Button>
       </NavLink>
     </Navbar>
     {children}

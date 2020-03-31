@@ -1,5 +1,9 @@
 /* selectors */
 export const getAll = ({ posts }) => posts.data.posts;
+/*temporary - unitl bulild backend*/
+export const getPost = ({ posts, id }) => {
+  console.log(posts, posts.data.posts, id);
+};
 
 /* action name creator */
 const reducerName = "posts";

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import clsx from "clsx";
+// import clsx from "clsx";
 
 // import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
@@ -23,7 +23,7 @@ const Component = ({ post }) => (
       <Button variant="primary">Read more</Button>
     </LinkContainer>
     <Card.Footer>
-      <small className="text-muted">Last updated 3 mins ago</small>
+      <small className="text-muted">Added: {post.addDate}</small>
     </Card.Footer>
   </Card>
 );
