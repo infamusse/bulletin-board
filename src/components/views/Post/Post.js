@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 // import clsx from "clsx";
 
@@ -11,16 +12,21 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 
 const Component = ({ className, children, match, post }) => {
   const matchId = match.params.id;
-  /* Unitil connect to DB */
-  const matchPost = post.find(({ id }) => id === parseInt(matchId));
+  const getPost = async id => {
+    axios.get(`http://localhost:8000/api/post/${id}`).then(res => {
+      console.log("getPost", res.data);
+    });
+  };
+  getPost(matchId);
 
-  const { title, contnet, addDate } = matchPost;
+  // const { title, contnet, addDate } = matchPost;
 
   return (
     <Jumbotron className={styles.post}>
-      <h1> {title}</h1>
+      {/* <h1> {title}</h1>
       <p>{contnet}</p>
-      <p>{addDate}</p>
+      <p>{addDate}</p> */}
+      <h1>Tu będzie widok posta</h1>
     </Jumbotron>
   );
 };

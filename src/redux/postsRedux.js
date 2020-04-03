@@ -1,9 +1,8 @@
+const axios = require("axios");
+
 /* selectors */
-export const getAll = ({ posts }) => posts.data.posts;
-/*temporary - unitl bulild backend*/
-export const getPost = ({ posts, id }) => {
-  console.log(posts, posts.data.posts, id);
-};
+export const getAll = ({ posts }) => posts.data;
+export const getLoadingState = ({ posts }) => posts.loading;
 
 /* action name creator */
 const reducerName = "posts";
@@ -20,6 +19,18 @@ export const fetchSuccess = payload => ({ payload, type: FETCH_SUCCESS });
 export const fetchError = payload => ({ payload, type: FETCH_ERROR });
 
 /* thunk creators */
+export const fetchPostsAPI = () => {
+  return function(dispatch) {
+    dispatch(fetchStarted());
+    axios
+      .get("http://localhost:8000/api/posts")
+      .then(response => {
+        const posts = response.data;
+        dispatch(fetchSuccess(posts));
+      })
+      .catch(error => fetchError(error.message));
+  };
+};
 
 /* reducer */
 export const reducer = (statePart = [], action = {}) => {
