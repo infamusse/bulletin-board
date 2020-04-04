@@ -1,52 +1,63 @@
 import React from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
-
-// import clsx from "clsx";
 
 import { connect } from "react-redux";
-import { getAll } from "../../../redux/postsRedux";
+import {
+  getLoadingState,
+  fetchPostAPI,
+  getOne
+} from "../../../redux/postsRedux";
 
 import styles from "./Post.module.scss";
 import Jumbotron from "react-bootstrap/Jumbotron";
 
-const Component = ({ className, children, match, post }) => {
-  const matchId = match.params.id;
-  const getPost = async id => {
-    axios.get(`http://localhost:8000/api/post/${id}`).then(res => {
-      console.log("getPost", res.data);
-    });
+class Component extends React.Component {
+  static propTypes = {
+    match: PropTypes.object,
+    fetchPost: PropTypes.func,
+    loading: PropTypes.shape({
+      active: PropTypes.bool,
+      error: PropTypes.string
+    }),
+    post: PropTypes.object
   };
-  getPost(matchId);
 
-  // const { title, contnet, addDate } = matchPost;
+  componentDidMount() {
+    const { fetchPost } = this.props;
+    const { id } = this.props.match.params;
+    fetchPost(id);
+  }
 
-  return (
-    <Jumbotron className={styles.post}>
-      {/* <h1> {title}</h1>
-      <p>{contnet}</p>
-      <p>{addDate}</p> */}
-      <h1>Tu będzie widok posta</h1>
-    </Jumbotron>
-  );
-};
+  render() {
+    const {
+      loading: { active },
+      post
+    } = this.props;
 
-Component.propTypes = {
-  children: PropTypes.node,
-  className: PropTypes.string,
-  match: PropTypes.object,
-  post: PropTypes.array
-};
+    if (active) {
+      return <p> Loading ...</p>;
+    } else {
+      return (
+        <Jumbotron className={styles.post}>
+          <h1> {post.title}</h1>
+          <h3>{post.author}</h3>
+          <p>{post.text}</p>
+        </Jumbotron>
+      );
+    }
+  }
+}
 
 const mapStateToProps = state => ({
-  post: getAll(state)
+  post: getOne(state),
+  loading: getLoadingState(state)
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapDispatchToProps = dispatch => ({
+  fetchPost: id => dispatch(fetchPostAPI(id))
+});
 
-const Container = connect(mapStateToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   // Component as Post,

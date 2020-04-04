@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import clsx from "clsx";
-
 import { connect } from "react-redux";
 import {
   getAll,
@@ -31,7 +29,7 @@ class Component extends React.Component {
 
   render() {
     const {
-      loading: { active, error },
+      loading: { active },
       posts
     } = this.props;
 
