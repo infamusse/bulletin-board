@@ -1,11 +1,16 @@
 const Posts = require("../models/post.model");
 // const sanitize = require("mongo-sanitize");
 
+const getDate = () => {
+  const today = new Date();
+  return today.toISOString();
+};
+
 exports.getAll = async (req, res) => {
   try {
     res.json(await Posts.find());
   } catch (err) {
-    res.status(500).json({ messeage: err });
+    res.status(500).json({ message: err });
   }
 };
 
@@ -13,7 +18,7 @@ exports.getOne = async (req, res) => {
   try {
     res.json(await Posts.findById(req.params.id));
   } catch (err) {
-    res.status(500).json({ messeage: err });
+    res.status(500).json({ message: err });
   }
 };
 
@@ -31,11 +36,10 @@ exports.post = async (req, res) => {
       phone,
       location
     } = req.body;
-    console.log("req.body", req.body);
     const newPost = new Posts({
       author: author,
-      created: created,
-      updated: updated,
+      created: getDate(),
+      updated: getDate(),
       status: status,
       title: title,
       text: text,
@@ -48,6 +52,48 @@ exports.post = async (req, res) => {
     res.json({ message: "OK" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ messeage: err });
+    res.status(500).json({ message: err });
+  }
+};
+
+exports.put = async (req, res) => {
+  try {
+    const {
+      author,
+      status,
+      title,
+      text,
+      photo,
+      price,
+      phone,
+      location
+    } = req.body;
+
+    const postToUpdate = await Posts.findById("5d9f1140f10a81216cfd4408");
+    postToUpdate.updated = getDate();
+    postToUpdate.author = author;
+    postToUpdate.status = status;
+    postToUpdate.title = title;
+    postToUpdate.text = text;
+    postToUpdate.photo = photo;
+    postToUpdate.price = price;
+    postToUpdate.phone = phone;
+    postToUpdate.location = location;
+
+    await postToUpdate.save();
+    res.json({ message: "OK" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err });
+  }
+};
+
+exports.delete = async (req, res) => {
+  try {
+    await Posts.deleteOne({ id: req.params.id });
+    res.json({ message: "OK" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err });
   }
 };
