@@ -33,6 +33,16 @@ const Component = ({ className, children }) => (
       >
         <Button variant="light">Login</Button>
       </NavLink>
+
+      <NavLink
+        className={styles.navLink}
+        color="inherit"
+        exact
+        to={`${process.env.PUBLIC_URL}/post/add`}
+        activeClassName="active"
+      >
+        <Button variant="light">Add post</Button>
+      </NavLink>
     </Navbar>
     {children}
   </div>
