@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const PostsController = require("../controllers/posts.contreoller");
+const PostsController = require("../controllers/posts.controller");
 
 router.get("/posts", PostsController.getAll);
 router.get("/post/:id", PostsController.getOne);

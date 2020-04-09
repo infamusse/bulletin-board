@@ -12,13 +12,13 @@ import styles from "./Login.module.scss";
 const Component = ({ className, children }) => (
   <div className={clsx(className, styles.root)}>
     <h2>Login</h2>
-    <Link
+    <a
       className={clsx(styles.loginBtn, styles.loginBtnGoogle)}
       exact
-      to={`${process.env.PUBLIC_URL}/auth/google`}
+      href={`http://localhost:8000/auth/google`}
     >
       Login with Google
-    </Link>
+    </a>
     {children}
   </div>
 );

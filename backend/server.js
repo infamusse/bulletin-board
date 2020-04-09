@@ -2,8 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
+const passport = require("passport");
+const session = require("express-session");
 
-const postsRoutes = require("./routes/post.routes");
+const passportConfig = require("./config/passport");
 
 const app = express();
 
@@ -11,9 +13,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(session({ secret: "anything" }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 /* api endpoint */
-app.use("/api", postsRoutes);
+app.use("/api", require("./routes/post.routes"));
+app.use("/auth", require("./routes/auth.routes"));
+app.use("/user", require("./routes/user.routes"));
 
 /* api error pages */
 app.use("/api", (req, res) => {
@@ -23,7 +30,7 @@ app.use("/api", (req, res) => {
 /* react website */
 app.use(express.static(path.join(__dirname, "../build")));
 app.use("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../build/index.html"));
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 /* mongoose */

@@ -6,5 +6,7 @@ export const initialState = {
       error: false
     },
     post: {}
-  }
+  },
+  user: {},
+  isLogged: false
 };

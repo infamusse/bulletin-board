@@ -11,6 +11,9 @@
 # production
 /build
 
+#env
+/backend/nodemon.json
+
 # misc
 .DS_Store
 .env.local

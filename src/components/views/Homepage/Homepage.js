@@ -8,6 +8,8 @@ import {
   fetchPostsAPI
 } from "../../../redux/postsRedux";
 
+import { fetchUserinfo } from "../../../redux/userRedux";
+
 import { PostCard } from "../../features/PostCard/PostCard";
 
 import CardDeck from "react-bootstrap/CardDeck";
@@ -16,6 +18,7 @@ import styles from "./Homepage.module.scss";
 class Component extends React.Component {
   static propTypes = {
     fetchPosts: PropTypes.func,
+    fetchUser: PropTypes.func,
     loading: PropTypes.shape({
       active: PropTypes.bool,
       error: PropTypes.string
@@ -23,8 +26,9 @@ class Component extends React.Component {
     posts: PropTypes.array
   };
   componentDidMount() {
-    const { fetchPosts } = this.props;
+    const { fetchPosts, fetchUser } = this.props;
     fetchPosts();
+    fetchUser();
   }
 
   render() {
@@ -55,7 +59,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchPosts: () => dispatch(fetchPostsAPI())
+  fetchPosts: () => dispatch(fetchPostsAPI()),
+  fetchUser: () => dispatch(fetchUserinfo())
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
