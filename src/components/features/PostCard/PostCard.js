@@ -6,25 +6,30 @@ import Button from "react-bootstrap/Button";
 import styles from "./PostCard.module.scss";
 import { LinkContainer } from "react-router-bootstrap";
 
-const Component = ({ post }) => (
-  <Card className={styles.post}>
-    <Card.Body>
-      <Card.Title>{post.title}</Card.Title>
-      <Card.Text>{post.text}</Card.Text>
-    </Card.Body>
-    <LinkContainer to={`post/${post._id}`} exact>
-      <Button variant="primary">Read more</Button>
-    </LinkContainer>
-    <Card.Footer>
-      <small className="text-muted">Added: {post.addDate}</small>
-    </Card.Footer>
-  </Card>
-);
+const Component = ({ post }) => {
+  let updateISO = new Date(post.updated);
+  updateISO = updateISO.toDateString();
+
+  return (
+    <Card className={styles.post}>
+      <Card.Body>
+        <Card.Title>{post.title}</Card.Title>
+        <Card.Text>{post.text}</Card.Text>
+      </Card.Body>
+      <LinkContainer to={`post/${post._id}`} exact>
+        <Button variant="primary">Read more</Button>
+      </LinkContainer>
+      <Card.Footer>
+        <small className="text-muted">Updated: {updateISO}</small>
+      </Card.Footer>
+    </Card>
+  );
+};
 
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  post: PropTypes.object
+  post: PropTypes.object,
 };
 
 // const mapStateToProps = state => ({
@@ -40,5 +45,5 @@ Component.propTypes = {
 export {
   Component as PostCard,
   // Container as Post,
-  Component as PostCardComponent
+  Component as PostCardComponent,
 };

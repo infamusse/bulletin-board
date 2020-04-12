@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import {
   createMuiTheme,
   StylesProvider,
-  ThemeProvider
+  ThemeProvider,
 } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
 
@@ -22,8 +22,8 @@ import { Logged } from "./components/views/Logged/Logged";
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#2B4C6F" }
-  }
+    primary: { main: "#2B4C6F" },
+  },
 });
 
 const App = () => (

@@ -5,10 +5,8 @@ import { connect } from "react-redux";
 import {
   getAll,
   getLoadingState,
-  fetchPostsAPI
+  fetchPostsAPI,
 } from "../../../redux/postsRedux";
-
-import { fetchUserinfo } from "../../../redux/userRedux";
 
 import { PostCard } from "../../features/PostCard/PostCard";
 
@@ -21,29 +19,35 @@ class Component extends React.Component {
     fetchUser: PropTypes.func,
     loading: PropTypes.shape({
       active: PropTypes.bool,
-      error: PropTypes.string
+      error: PropTypes.string,
     }),
-    posts: PropTypes.array
+    posts: PropTypes.array,
   };
   componentDidMount() {
-    const { fetchPosts, fetchUser } = this.props;
+    const { fetchPosts, posts } = this.props;
     fetchPosts();
-    fetchUser();
   }
 
   render() {
     const {
       loading: { active },
-      posts
+      posts,
     } = this.props;
+    let sortedPost;
+    if (!active && posts.length)
+      sortedPost = posts
+        .slice()
+        .sort((a, b) => new Date(b.updated) - new Date(a.updated));
 
-    if (active || !posts.length) {
+    console.log("sortedPost", sortedPost);
+
+    if (active || !sortedPost) {
       return <p> Loading ...</p>;
     } else {
       return (
         <div className={styles.root}>
           <CardDeck className={styles.cardContainer}>
-            {posts.map(post => (
+            {sortedPost.map((post) => (
               <PostCard key={post.title} post={post} />
             ))}
           </CardDeck>
@@ -53,14 +57,13 @@ class Component extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   posts: getAll(state),
-  loading: getLoadingState(state)
+  loading: getLoadingState(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchPosts: () => dispatch(fetchPostsAPI()),
-  fetchUser: () => dispatch(fetchUserinfo())
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
@@ -68,5 +71,5 @@ const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 export {
   // Component as Homepage,
   Container as Homepage,
-  Component as HomepageComponent
+  Component as HomepageComponent,
 };

@@ -4,36 +4,45 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import { HeaderComponent } from "../Header/Header";
+import { getUser, fetchUserinfo } from "../../../redux/userRedux";
 
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { connect } from "react-redux";
 
 import styles from "./MainLayout.module.scss";
+import { useEffect } from "react";
 
-const Component = ({ className, children }) => (
-  <div className={clsx(className, styles.root)}>
-    <HeaderComponent />
-    {children}
-  </div>
-);
+const Component = ({ className, children, fetchUser, user }) => {
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  return (
+    <div className={clsx(className, styles.root)}>
+      <HeaderComponent user={user} />
+      {children}
+    </div>
+  );
+};
 
 Component.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
+  user: PropTypes.object,
+  fetchUser: PropTypes.func,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = (state) => ({
+  user: getUser(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  fetchUser: () => dispatch(fetchUserinfo()),
+});
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  Component as MainLayout,
-  // Container as MainLayout,
-  Component as MainLayoutComponent
+  // Component as MainLayout,
+  Container as MainLayout,
+  Component as MainLayoutComponent,
 };

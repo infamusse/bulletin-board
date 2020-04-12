@@ -3,10 +3,15 @@ export const initialState = {
     data: {},
     loading: {
       active: false,
-      error: false
+      error: false,
     },
-    post: {}
+    post: {},
   },
-  user: {},
-  isLogged: false
+  user: {
+    userName: null,
+    loading: {
+      active: false,
+      error: false,
+    },
+  },
 };
