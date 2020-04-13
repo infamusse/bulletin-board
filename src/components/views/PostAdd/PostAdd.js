@@ -24,16 +24,6 @@ class Component extends React.Component {
     user: PropTypes.object,
   };
 
-  componentDidMount() {
-    const { user } = this.props;
-    console.log("componentWillMount", user);
-
-    this.setState({
-      post: {
-        author: user.userName,
-      },
-    });
-  }
   constructor(props) {
     super(props);
 
@@ -48,6 +38,17 @@ class Component extends React.Component {
     this.handleText = this.handleText.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  componentDidMount() {
+    const { user } = this.props;
+
+    this.setState({
+      post: {
+        author: user.userName,
+      },
+    });
+  }
+
   handleTitle(event) {
     this.setState({ post: { ...this.state.post, title: event.target.value } });
   }
@@ -76,8 +77,6 @@ class Component extends React.Component {
     } else {
       return (
         <Jumbotron className={styles.root}>
-          {user.userName}
-          {this.state.author}
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="author">
@@ -89,7 +88,7 @@ class Component extends React.Component {
               aria-label="Nazwa"
               disabled
               aria-describedby="author"
-              value={this.state.author}
+              value={user.userName}
             />
           </InputGroup>
 
@@ -116,6 +115,14 @@ class Component extends React.Component {
               value={this.state.text}
               onChange={this.handleText}
             />
+          </Form.Group>
+
+          <Form.Group controlId="exampleForm.SelectCustomSizeSm">
+            <Form.Label>Publish</Form.Label>
+            <Form.Control as="select" size="sm" custom>
+              <option>Now</option>
+              <option>Draft</option>
+            </Form.Control>
           </Form.Group>
 
           <Button onClick={this.handleSubmit} variant="primary">

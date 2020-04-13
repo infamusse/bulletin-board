@@ -20,7 +20,6 @@ export const fetchError = (payload) => ({ payload, type: FETCH_ERROR });
 /* thunk creators */
 export const fetchUserinfo = () => {
   return function (dispatch) {
-    console.log("user fetch", process.env.REACT_APP_API_URL);
     axios
       .get(`http://localhost:8000/user/logged`, {
         withCredentials: true,

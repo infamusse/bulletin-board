@@ -38,7 +38,8 @@ const Component = ({ className, children, user }) => (
       {user.userName != null ? (
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            Signed in as: <a href="#login">{user.userName}</a>
+            Signed in as:{" "}
+            <a href={`${process.env.PUBLIC_URL}/profile`}>{user.userName}</a>
           </Navbar.Text>
           <Button className={"ml-2"} variant="danger">
             <a

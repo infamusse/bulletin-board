@@ -34,7 +34,7 @@ exports.post = async (req, res) => {
       photo,
       price,
       phone,
-      location
+      location,
     } = req.body;
     const newPost = new Posts({
       author: author,
@@ -46,7 +46,7 @@ exports.post = async (req, res) => {
       photo: photo,
       price: price,
       phone: phone,
-      location: location
+      location: location,
     });
     await newPost.save();
     res.json({ message: "OK" });
@@ -66,10 +66,10 @@ exports.put = async (req, res) => {
       photo,
       price,
       phone,
-      location
+      location,
     } = req.body;
 
-    const postToUpdate = await Posts.findById("5d9f1140f10a81216cfd4408");
+    const postToUpdate = await Posts.findById(req.params.id);
     postToUpdate.updated = getDate();
     postToUpdate.author = author;
     postToUpdate.status = status;

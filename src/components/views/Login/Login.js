@@ -15,7 +15,7 @@ const Component = ({ className, children }) => (
     <a
       className={clsx(styles.loginBtn, styles.loginBtnGoogle)}
       exact
-      href={`http://localhost:8000/auth/google`}
+      href={`${process.env.REACT_APP_API_URL}/auth/google`}
     >
       Login with Google
     </a>
@@ -25,7 +25,7 @@ const Component = ({ className, children }) => (
 
 Component.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 // const mapStateToProps = state => ({
@@ -41,5 +41,5 @@ Component.propTypes = {
 export {
   Component as Login,
   // Container as Login,
-  Component as LoginComponent
+  Component as LoginComponent,
 };
