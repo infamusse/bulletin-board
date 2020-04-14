@@ -1,13 +1,10 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import clsx from "clsx";
 
 import Navbar from "react-bootstrap/Navbar";
-
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from "./Header.module.scss";
 import Button from "react-bootstrap/Button";
@@ -74,17 +71,4 @@ Component.propTypes = {
   user: PropTypes.object,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
-
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
-
-export {
-  // Container as Header,
-  Component as HeaderComponent,
-};
+export { Component as HeaderComponent };

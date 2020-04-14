@@ -26,8 +26,6 @@ exports.post = async (req, res) => {
   try {
     const {
       author,
-      created,
-      updated,
       status,
       title,
       text,
@@ -90,8 +88,14 @@ exports.put = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    await Posts.deleteOne({ id: req.params.id });
-    res.json({ message: "OK" });
+    const postToDelete = await Posts.findById(req.params.id);
+
+    if (postToDelete) {
+      await Posts.deleteOne({ _id: req.params.id });
+      res.json({ message: "OK" });
+    } else {
+      res.status(404).json({ message: "Not found..." });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: err });

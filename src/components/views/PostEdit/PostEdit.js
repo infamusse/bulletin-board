@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import axios from "axios";
-
 import { connect } from "react-redux";
 import {
   getLoadingState,
@@ -11,16 +10,8 @@ import {
 } from "../../../redux/postsRedux";
 import { getUser } from "../../../redux/userRedux";
 
-import styles from "./PostEdit.module.scss";
-
-import Jumbotron from "react-bootstrap/Jumbotron";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faFileWord } from "@fortawesome/free-solid-svg-icons";
+import PostForm from "../../features/PostForm/PostForm";
+import Snackbar from "../../common/Snackbar/Snackbar";
 
 class Component extends React.Component {
   static propTypes = {
@@ -32,6 +23,7 @@ class Component extends React.Component {
     }),
     post: PropTypes.object,
     user: PropTypes.object,
+    location: PropTypes.object,
   };
 
   constructor(props) {
@@ -39,15 +31,11 @@ class Component extends React.Component {
     console.log("constructor", props);
 
     this.state = {
-      post: {
-        title: "",
-        text: "",
-        status: "",
-      },
+      post: {},
       user: {},
+      alert: {},
     };
 
-    this.handleEvent = this.handleEvent.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -56,24 +44,28 @@ class Component extends React.Component {
     this.setState({ post: post });
   }
 
-  handleEvent(event) {
-    console.log(event.target.name, event.target.value);
+  showAlert(text, color) {
+    console.log("pokaż alert");
+
     this.setState({
-      post: { ...this.state.post, [event.target.name]: event.target.value },
+      alert: {
+        text: text,
+        color: color,
+        show: true,
+      },
     });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    let editPost = this.state.post;
+  handleSubmit(returnForm) {
+    let editPost = returnForm;
 
-    console.log("post", editPost);
+    console.log("returnForm", returnForm);
 
     axios
       .put(`http://localhost:8000/api/post/${editPost._id}`, { ...editPost })
       .then((res) => {
         console.log(res.data);
-        alert("zapisano");
+        this.showAlert(`Zmieniono pomyśnie ${editPost.title}`, "success");
       });
   }
 
@@ -83,74 +75,19 @@ class Component extends React.Component {
       user,
     } = this.props;
 
-    const { post } = this.state;
+    const {
+      post,
+      alert: { text, color, show },
+    } = this.state;
 
     if (active) {
       return <p> Loading ...</p>;
     } else if (user.userName) {
       return (
-        <Jumbotron className={styles.root}>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="author">
-                <FontAwesomeIcon icon={faUser} />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              placeholder="Nazwa użytkownika"
-              aria-label="Nazwa"
-              disabled
-              aria-describedby="author"
-              value={post.author}
-            />
-          </InputGroup>
-
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="title">
-                <FontAwesomeIcon icon={faFileWord} />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              placeholder="Tytuł ogłoszenia"
-              name="title"
-              aria-label="Tytuł"
-              aria-describedby="title"
-              value={post.title}
-              onChange={this.handleEvent}
-            />
-          </InputGroup>
-
-          <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Control
-              placeholder="Treść ogłoszenia"
-              name="text"
-              as="textarea"
-              rows="3"
-              value={post.text}
-              onChange={this.handleEvent}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="exampleForm.SelectCustomSizeSm">
-            <Form.Label>Publish</Form.Label>
-            <Form.Control
-              onChange={this.handleEvent}
-              value={post.status}
-              name="status"
-              as="select"
-              size="sm"
-              custom
-            >
-              <option value="published">Now</option>
-              <option value="draft">Later</option>
-            </Form.Control>
-          </Form.Group>
-
-          <Button onClick={this.handleSubmit} variant="primary">
-            Save
-          </Button>
-        </Jumbotron>
+        <div>
+          <Snackbar showSnackbar={show} text={text} color={color} />
+          <PostForm submit={this.handleSubmit} post={post} />
+        </div>
       );
     } else {
       return <p>Zaloguj się</p>;
