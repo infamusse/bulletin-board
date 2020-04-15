@@ -10,7 +10,6 @@ const Component = ({ className, children }) => (
     <h2>Login</h2>
     <a
       className={clsx(styles.loginBtn, styles.loginBtnGoogle)}
-      exact
       href={`${process.env.REACT_APP_API_URL}/auth/google`}
     >
       Login with Google

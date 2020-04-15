@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
@@ -13,56 +13,56 @@ import { PostCard } from "../../features/PostCard/PostCard";
 import CardDeck from "react-bootstrap/CardDeck";
 import styles from "./Homepage.module.scss";
 
-class Component extends React.Component {
-  static propTypes = {
-    fetchPosts: PropTypes.func,
-    fetchUser: PropTypes.func,
-    loading: PropTypes.shape({
-      active: PropTypes.bool,
-      error: PropTypes.string,
-    }),
-    posts: PropTypes.array,
-  };
-  componentDidMount() {
-    const { fetchPosts } = this.props;
+const sortPost = (unSortedPosts) => {
+  let sortedPost;
+
+  if (unSortedPosts.length)
+    sortedPost = unSortedPosts
+      .slice()
+      .sort((a, b) => new Date(b.updated) - new Date(a.updated));
+  else sortedPost = [];
+
+  return sortedPost;
+};
+
+const Component = ({ loading: { active }, posts, fetchPosts }) => {
+  useEffect(() => {
     fetchPosts();
-  }
+  }, []);
 
-  render() {
-    const {
-      loading: { active },
-      posts,
-    } = this.props;
-    let sortedPost;
-    if (!active && posts.length)
-      sortedPost = posts
-        .slice()
-        .sort((a, b) => new Date(b.updated) - new Date(a.updated));
+  const postsAfterSorting = useMemo(() => sortPost(posts), [posts]);
 
-    if (active || !sortedPost) {
-      return <p> Loading ...</p>;
-    } else {
-      return (
-        <div className={styles.root}>
-          <CardDeck className={styles.cardContainer}>
-            {sortedPost.map((post) => (
-              <PostCard key={post.title} post={post} />
-            ))}
-          </CardDeck>
-        </div>
-      );
-    }
+  if (active || !sortPost) {
+    return <p> Loading ...</p>;
+  } else {
+    return (
+      <div className={styles.root}>
+        <CardDeck className={styles.cardContainer}>
+          {postsAfterSorting.map((post) => (
+            <PostCard key={post._id} post={post} />
+          ))}
+        </CardDeck>
+      </div>
+    );
   }
-}
+};
+
+Component.propTypes = {
+  fetchPosts: PropTypes.func,
+  fetchUser: PropTypes.func,
+  loading: PropTypes.shape({
+    active: PropTypes.bool,
+    error: PropTypes.string,
+  }),
+  posts: PropTypes.array,
+};
 
 const mapStateToProps = (state) => ({
   posts: getAll(state),
   loading: getLoadingState(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchPosts: () => dispatch(fetchPostsAPI()),
-});
+const mapDispatchToProps = { fetchPosts: fetchPostsAPI };
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 

@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import axios from "axios";
-
 import { connect } from "react-redux";
 import { getUser } from "../../../redux/userRedux";
+import { createPost } from "../../../redux/postsRedux";
 
 import PostForm from "../../features/PostForm/PostForm";
 import Snackbar from "../../common/Snackbar/Snackbar";
@@ -14,17 +13,15 @@ class Component extends React.Component {
     children: PropTypes.node,
     className: PropTypes.string,
     user: PropTypes.object,
+    sendPost: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
-
     this.state = {
       post: {},
       alert: {},
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -50,18 +47,15 @@ class Component extends React.Component {
     });
   }
 
-  handleSubmit(returnForm) {
-    let sendPost = returnForm;
+  handleSubmit = (returnForm) => {
+    const { sendPost } = this.props;
 
     console.log("returnForm", returnForm);
 
-    axios
-      .post(`http://localhost:8000/api/post`, { ...sendPost })
-      .then((res) => {
-        this.showAlert("Dodano pomyśnie post", "success");
-        console.log(res.data);
-      });
-  }
+    sendPost(returnForm).then(() =>
+      this.showAlert("Dodano pomyśnie post", "success")
+    );
+  };
 
   render() {
     const { user } = this.props;
@@ -87,11 +81,11 @@ const mapStateToProps = (state) => ({
   user: getUser(state),
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   someAction: (arg) => dispatch(reduxActionCreator(arg)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  sendPost: (post) => dispatch(createPost(post)),
+});
 
-const Container = connect(mapStateToProps, null)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   // Component as PostAdd,

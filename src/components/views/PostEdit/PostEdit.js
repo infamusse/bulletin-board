@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import {
   getLoadingState,
   fetchPostAPI,
+  editPost,
   getOne,
 } from "../../../redux/postsRedux";
 import { getUser } from "../../../redux/userRedux";
@@ -24,6 +25,7 @@ class Component extends React.Component {
     post: PropTypes.object,
     user: PropTypes.object,
     location: PropTypes.object,
+    sendPost: PropTypes.func,
   };
 
   constructor(props) {
@@ -35,8 +37,6 @@ class Component extends React.Component {
       user: {},
       alert: {},
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -56,18 +56,16 @@ class Component extends React.Component {
     });
   }
 
-  handleSubmit(returnForm) {
-    let editPost = returnForm;
+  handleSubmit = (returnForm) => {
+    const { sendPost } = this.props;
+    const { title } = returnForm;
 
     console.log("returnForm", returnForm);
 
-    axios
-      .put(`http://localhost:8000/api/post/${editPost._id}`, { ...editPost })
-      .then((res) => {
-        console.log(res.data);
-        this.showAlert(`Zmieniono pomyśnie ${editPost.title}`, "success");
-      });
-  }
+    sendPost(returnForm).then(() =>
+      this.showAlert(`Zmieniono pomyśnie ${title}`, "success")
+    );
+  };
 
   render() {
     const {
@@ -103,6 +101,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchPost: (id) => dispatch(fetchPostAPI(id)),
+  sendPost: (post) => dispatch(editPost(post)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);

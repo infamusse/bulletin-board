@@ -15,7 +15,11 @@ const Snackbar = ({ color, text, showSnackbar, timeout }) => {
 
   useEffect(() => {
     setShow({ show: showSnackbar });
-    setTimeout(closeSnackbar, timeout);
+    const autoClose = setTimeout(closeSnackbar, timeout);
+
+    return () => {
+      clearTimeout(autoClose);
+    };
   }, [showSnackbar]);
 
   return (
