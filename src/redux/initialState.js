@@ -9,6 +9,9 @@ export const initialState = {
   },
   user: {
     userName: null,
+    email: null,
+    photo: null,
+    posts: null,
     loading: {
       active: false,
       error: false,

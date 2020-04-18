@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUser } from "../../../redux/userRedux";
 import { createPost } from "../../../redux/postsRedux";
+import Redirect from "react-router-dom";
 
 import PostForm from "../../features/PostForm/PostForm";
 import Snackbar from "../../common/Snackbar/Snackbar";
@@ -29,15 +30,13 @@ class Component extends React.Component {
 
     this.setState({
       post: {
-        author: user.userName,
+        author: user.email,
         status: "draft",
       },
     });
   }
 
   showAlert(text, color) {
-    console.log("pokaż alert");
-
     this.setState({
       alert: {
         text: text,
@@ -52,10 +51,13 @@ class Component extends React.Component {
 
     console.log("returnForm", returnForm);
 
-    sendPost(returnForm).then(() =>
-      this.showAlert("Dodano pomyśnie post", "success")
-    );
+    sendPost(returnForm).then(() => {
+      this.showAlert("Dodano pomyśnie post", "success");
+      setTimeout(this.redirectToMain, 4000);
+    });
   };
+
+  redirectToMain = () => (window.location.href = `${process.env.PUBLIC_URL}/`);
 
   render() {
     const { user } = this.props;

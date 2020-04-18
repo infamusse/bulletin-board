@@ -4,7 +4,6 @@ const path = require("path");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
-
 const passportConfig = require("./config/passport");
 
 const app = express();
@@ -12,8 +11,8 @@ const app = express();
 /* middleware */
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true
+    origin: `${process.env.CLIENT_URL}`,
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -32,6 +31,12 @@ app.use("/api", (req, res) => {
   res.status(404).send({ post: "Not found" });
 });
 
+/* deploy */
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+app.use(express.static(path.join(__dirname, "/client/build")));
+
 /* react website */
 app.use(express.static(path.join(__dirname, "../build")));
 app.use("*", (req, res) => {
@@ -39,15 +44,18 @@ app.use("*", (req, res) => {
 });
 
 /* mongoose */
-mongoose.connect("mongodb://localhost:27017/bulletinBoard", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(
+  `mongodb+srv://infamusse:${process.env.DATABASE_PASSWORD}@cluster0-lqgyh.mongodb.net/test?retryWrites=true&w=majority`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 const db = mongoose.connection;
 db.once("open", () => {
   console.log("Successfully connected to the database");
 });
-db.on("error", err => console.log("Error: " + err));
+db.on("error", (err) => console.log("Error: " + err));
 
 /* init server */
 const port = process.env.port || 8000;

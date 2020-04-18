@@ -5,11 +5,8 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { fetchUserinfo, getUser } from "../../../redux/userRedux";
-import {
-  getAll,
-  getLoadingState,
-  fetchPostsAPI,
-} from "../../../redux/postsRedux";
+import { getAll, getLoadingState } from "../../../redux/postsRedux";
+import { fetchUserPostsAPI } from "../../../redux/userRedux";
 
 import { PostCard } from "../../features/PostCard/PostCard";
 import DialogConfirm from "../../common/DialogConfirm/DialogConfirm";
@@ -44,15 +41,14 @@ class Component extends React.Component {
     this.comfirmDialog = this.comfirmDialog.bind(this);
   }
 
-  componentDidMount() {
-    const { fetchUser, fetchPosts } = this.props;
-    fetchUser();
-    fetchPosts();
+  componentDidUpdate(prevProps) {
+    const { fetchPosts, user } = this.props;
+    if (this.props.user.userName !== prevProps.user.userName) {
+      fetchPosts(user.email);
+    }
   }
 
   showAlert(text, color) {
-    console.log("pokaż alert");
-
     this.setState({
       alert: {
         textAlert: text,
@@ -87,20 +83,27 @@ class Component extends React.Component {
     this.deletePost(deleteItemId);
   }
 
+  reloadData() {
+    const { fetchPosts, user } = this.props;
+    fetchPosts(user.email);
+  }
+
   deletePost(postId) {
     console.log("deletePost", postId);
-    axios.delete(`http://localhost:8000/api/post/${postId}`).then((res) => {
-      console.log(res.data);
-      this.closeDialog();
-      this.showAlert("Usunięto pomyśnie", "success");
-    });
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/api/post/${postId}`)
+      .then((res) => {
+        console.log(res.data);
+        this.closeDialog();
+        this.showAlert("Usunięto pomyśnie", "success");
+        this.reloadData();
+      });
   }
 
   render() {
     const {
       loading: { active },
-      posts,
-      user,
+      user: { userName, posts, email },
     } = this.props;
 
     const {
@@ -108,24 +111,22 @@ class Component extends React.Component {
       alert: { textAlert, color, showAlert },
     } = this.state;
 
-    let userPost = [];
-    if (!active && posts.length)
-      userPost = posts.filter(({ author }) => author === user.userName);
-
-    if (user.userName && userPost.length) {
+    if (active) {
+      return <p>Loading</p>;
+    } else if (userName && posts) {
       return (
         <div>
           <Snackbar showSnackbar={showAlert} text={textAlert} color={color} />
           <div className={"ml-4"}>
-            <p>Signed in as: {user.userName}</p>
+            <p>Signed in as: {userName}</p>
             <p>Yours posts:</p>
           </div>
           <CardDeck className={styles.cardContainer}>
-            {userPost.map((post) => (
+            {posts.map((post) => (
               <PostCard
                 key={post._id}
                 post={post}
-                author={user.userName}
+                author={email}
                 deletePost={this.showDialog}
               />
             ))}
@@ -155,7 +156,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchUser: () => dispatch(fetchUserinfo()),
-  fetchPosts: () => dispatch(fetchPostsAPI()),
+  fetchPosts: (user) => dispatch(fetchUserPostsAPI(user)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);

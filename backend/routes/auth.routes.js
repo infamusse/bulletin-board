@@ -11,7 +11,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/user/no-permission" }),
   (req, res) => {
-    res.redirect("http://localhost:3000/profile");
+    res.redirect(`${process.env.CLIENT_URL}/profile`);
   }
 );
 

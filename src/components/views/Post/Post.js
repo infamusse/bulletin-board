@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import {
   getLoadingState,
   fetchPostAPI,
-  getOne
+  getOne,
 } from "../../../redux/postsRedux";
 
 import styles from "./Post.module.scss";
@@ -17,9 +17,9 @@ class Component extends React.Component {
     fetchPost: PropTypes.func,
     loading: PropTypes.shape({
       active: PropTypes.bool,
-      error: PropTypes.string
+      error: PropTypes.string,
     }),
-    post: PropTypes.object
+    post: PropTypes.object,
   };
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class Component extends React.Component {
   render() {
     const {
       loading: { active },
-      post
+      post,
     } = this.props;
 
     if (active) {
@@ -48,13 +48,13 @@ class Component extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   post: getOne(state),
-  loading: getLoadingState(state)
+  loading: getLoadingState(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchPost: id => dispatch(fetchPostAPI(id))
+const mapDispatchToProps = (dispatch) => ({
+  fetchPost: (id) => dispatch(fetchPostAPI(id)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
@@ -62,5 +62,5 @@ const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 export {
   // Component as Post,
   Container as Post,
-  Component as PostComponent
+  Component as PostComponent,
 };

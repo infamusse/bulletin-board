@@ -20,6 +20,8 @@ import { NotFound } from "./components/views/NotFound/NotFound";
 import { Login } from "./components/views/Login/Login";
 import { Profile } from "./components/views/Profile/Profile";
 
+import { PrivateRoute } from "./components/common/PrivateRoute/PrivateRoute";
+
 const theme = createMuiTheme({
   palette: {
     primary: { main: "#2B4C6F" },
@@ -36,10 +38,10 @@ const App = () => (
             <Switch>
               <Route exact path="/" component={Homepage} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/profile" component={Profile} />
-              <Route exact path="/post/add" component={PostAdd} />
-              <Route exact path="/post/:id" component={Post} />
-              <Route exact path="/post/:id/edit" component={PostEdit} />
+              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/post/add" component={PostAdd} />
+              <PrivateRoute path="/post/:id" component={Post} />
+              <PrivateRoute path="/post/:id/edit" component={PostEdit} />
               <Route path="*" component={NotFound} />
             </Switch>
           </MainLayout>

@@ -8,7 +8,7 @@ const getDate = () => {
 
 exports.getAll = async (req, res) => {
   try {
-    res.json(await Posts.find());
+    res.json(await Posts.find({ status: { $eq: "published" } }));
   } catch (err) {
     res.status(500).json({ message: err });
   }
@@ -17,6 +17,15 @@ exports.getAll = async (req, res) => {
 exports.getOne = async (req, res) => {
   try {
     res.json(await Posts.findById(req.params.id));
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
+
+exports.getUserPosts = async (req, res) => {
+  console.log("getUserPosts", req.params.user);
+  try {
+    res.json(await Posts.find({ author: { $eq: req.params.user } }));
   } catch (err) {
     res.status(500).json({ message: err });
   }
@@ -87,6 +96,7 @@ exports.put = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
+  console.log("delete post", req);
   try {
     const postToDelete = await Posts.findById(req.params.id);
 

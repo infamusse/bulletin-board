@@ -15,8 +15,6 @@ const FETCH_START = createActionName("FETCH_START");
 const FETCH_SUCCESS = createActionName("FETCH_SUCCESS");
 const FETCH_SUCCESS_POST = createActionName("FETCH_SUCCESS_POST");
 const FETCH_ERROR = createActionName("FETCH_ERROR");
-/* POST */
-const CREATE_POST = createActionName("CREATE_POST");
 
 /* action creators */
 export const fetchStarted = (payload) => ({ payload, type: FETCH_START });
@@ -32,7 +30,7 @@ export const fetchPostsAPI = () => {
   return function (dispatch) {
     dispatch(fetchStarted());
     axios
-      .get("http://localhost:8000/api/posts")
+      .get(`${process.env.REACT_APP_API_URL}/api/posts`)
       .then((response) => {
         const posts = response.data;
         dispatch(fetchSuccess(posts));
@@ -46,7 +44,7 @@ export const fetchPostAPI = (id) => {
   return function (dispatch) {
     dispatch(fetchStarted());
     axios
-      .get(`http://localhost:8000/api/post/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/api/post/${id}`)
       .then((response) => {
         const post = response.data;
         console.log("post", post);
@@ -60,7 +58,13 @@ export const createPost = (post) => {
   console.log("createPost", post);
   return (dispatch) =>
     axios
-      .post("http://localhost:8000/api/post", { ...post })
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/post`,
+        { ...post },
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         dispatch(fetchPostsAPI());
       })
@@ -71,7 +75,13 @@ export const editPost = (post) => {
   console.log("editPost", post);
   return (dispatch) =>
     axios
-      .put(`http://localhost:8000/api/post/${post._id}`, { ...post })
+      .put(
+        `${process.env.REACT_APP_API_URL}/api/post/${post._id}`,
+        { ...post },
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         dispatch(fetchPostsAPI());
       })

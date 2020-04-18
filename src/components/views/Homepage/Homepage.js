@@ -25,15 +25,18 @@ const sortPost = (unSortedPosts) => {
   return sortedPost;
 };
 
-const Component = ({ loading: { active }, posts, fetchPosts }) => {
+const Component = ({ loading: { active, error }, posts, fetchPosts }) => {
   useEffect(() => {
     fetchPosts();
+    console.log(typeof posts, posts);
   }, []);
 
   const postsAfterSorting = useMemo(() => sortPost(posts), [posts]);
 
-  if (active || !sortPost) {
+  if (active) {
     return <p> Loading ...</p>;
+  } else if (!posts.length) {
+    return <p>Please, log in</p>;
   } else {
     return (
       <div className={styles.root}>
