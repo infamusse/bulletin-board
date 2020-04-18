@@ -8,7 +8,7 @@
     "start:react": "react-scripts start",
     "start-and-test": "run-p start-silent test ",
     "build-client": "react-scripts build",
-    "build": "cd client && yarn install && yarn build",
+    "build": "yarn install && yarn build-client",
     "test-backend": "mocha backend/test/api/post/post.test.js",
     "test-backend:watch": "onchange \"./**/*.js\" -i -k -- yarn test-backend",
     "test": "react-scripts test --noStackTrace",
