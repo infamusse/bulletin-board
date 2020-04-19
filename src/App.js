@@ -42,7 +42,7 @@ const App = () => (
               <PrivateRoute path="/post/add" component={PostAdd} />
               <PrivateRoute path="/post/:id" component={Post} />
               <PrivateRoute path="/post/:id/edit" component={PostEdit} />
-              {/* <Route path="*" component={NotFound} /> */}
+              <Route path="*" component={NotFound} />
             </Switch>
           </MainLayout>
         </ThemeProvider>
