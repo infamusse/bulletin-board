@@ -8,6 +8,8 @@ const passportConfig = require("./config/passport");
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, "../build")));
+
 /* middleware */
 app.use(
   cors({
@@ -35,7 +37,6 @@ app.use("/api", (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../build/index.html"));
 });
-app.use(express.static(path.join(__dirname, "../build/static")));
 
 /* react website */
 app.use(express.static(path.join(__dirname, "../build")));
