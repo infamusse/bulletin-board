@@ -5,6 +5,7 @@
   "scripts": {
     "start": "run-p start:* ",
     "start-silent": "run-p start > /dev/null",
+    "start:backend": "cd backend && nodemon server.js",
     "start:react": "react-scripts start",
     "start-and-test": "run-p start-silent test ",
     "build-client": "react-scripts build",
