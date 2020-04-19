@@ -42,7 +42,9 @@ export const fetchUserPostsAPI = (user) => {
   return function (dispatch) {
     dispatch(fetchStarted());
     axios
-      .get(`${process.env.REACT_APP_API_URL}/api/post/user/${user}`)
+      .get(`${process.env.REACT_APP_API_URL}/api/post/user/${user}`, {
+        withCredentials: true,
+      })
       .then((response) => {
         const post = response.data;
         console.log("post", post);

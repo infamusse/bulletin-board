@@ -41,11 +41,10 @@ class Component extends React.Component {
     this.comfirmDialog = this.comfirmDialog.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const { fetchPosts, user } = this.props;
-    if (this.props.user.userName !== prevProps.user.userName) {
-      fetchPosts(user.email);
-    }
+  componentDidMount() {
+    const { fetchUser, fetchPosts, user } = this.props;
+    fetchUser();
+    fetchPosts(user.email);
   }
 
   showAlert(text, color) {
@@ -113,7 +112,7 @@ class Component extends React.Component {
 
     if (active) {
       return <p>Loading</p>;
-    } else if (userName && posts) {
+    } else if (posts) {
       return (
         <div>
           <Snackbar showSnackbar={showAlert} text={textAlert} color={color} />
