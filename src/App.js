@@ -39,9 +39,9 @@ const App = () => (
               <Route exact path="/" component={Homepage} />
               <Route exact path="/login" component={Login} />
               <PrivateRoute path="/profile" component={Profile} />
-              <PrivateRoute path="/post/add" component={PostAdd} />
-              <PrivateRoute path="/post/:id" component={Post} />
-              <PrivateRoute path="/post/:id/edit" component={PostEdit} />
+              <PrivateRoute exact path="/post/add" component={PostAdd} />
+              <PrivateRoute exact path="/post/:id" component={Post} />
+              <PrivateRoute exact path="/post/:id/edit" component={PostEdit} />
               <Route path="*" component={NotFound} />
             </Switch>
           </MainLayout>
