@@ -1,11 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { getUser } from "../../../redux/userRedux";
 import { connect } from "react-redux";
 
 const PrivateRoute = ({ user, component: Component, ...rest }) => {
-  console.log("Private Route", user.userName, Component);
   return (
     <Route
       {...rest}

@@ -88,11 +88,9 @@ class Component extends React.Component {
   }
 
   deletePost(postId) {
-    console.log("deletePost", postId);
     axios
       .delete(`${process.env.REACT_APP_API_URL}/api/post/${postId}`)
       .then((res) => {
-        console.log(res.data);
         this.closeDialog();
         this.showAlert("Usunięto pomyśnie", "success");
         this.reloadData();

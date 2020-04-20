@@ -26,7 +26,6 @@ const PostForm = ({ post, submit }) => {
   };
 
   const sendForm = () => {
-    console.log("sendForm", editedPost);
     submit(editedPost);
   };
 

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUser } from "../../../redux/userRedux";
 import { createPost } from "../../../redux/postsRedux";
-import Redirect from "react-router-dom";
 
 import PostForm from "../../features/PostForm/PostForm";
 import Snackbar from "../../common/Snackbar/Snackbar";
@@ -48,8 +47,6 @@ class Component extends React.Component {
 
   handleSubmit = (returnForm) => {
     const { sendPost } = this.props;
-
-    console.log("returnForm", returnForm);
 
     sendPost(returnForm).then(() => {
       this.showAlert("Dodano pomyśnie post", "success");

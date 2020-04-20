@@ -28,7 +28,6 @@ const sortPost = (unSortedPosts) => {
 const Component = ({ loading: { active, error }, posts, fetchPosts }) => {
   useEffect(() => {
     fetchPosts();
-    console.log(typeof posts, posts);
   }, []);
 
   const postsAfterSorting = useMemo(() => sortPost(posts), [posts]);

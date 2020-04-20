@@ -30,7 +30,6 @@ export const fetchUserinfo = () => {
         withCredentials: true,
       })
       .then((response) => {
-        console.log("USER RESPONSE", response);
         const user = response.data;
         dispatch(fetchUser(user));
       })
@@ -38,7 +37,6 @@ export const fetchUserinfo = () => {
 };
 
 export const fetchUserPostsAPI = (user) => {
-  console.log("fetchUserPostsAPI", user);
   return function (dispatch) {
     dispatch(fetchStarted());
     axios
@@ -47,7 +45,6 @@ export const fetchUserPostsAPI = (user) => {
       })
       .then((response) => {
         const post = response.data;
-        console.log("post", post);
         dispatch(fetchPostsUser(post));
       })
       .catch((error) => fetchError(error.message));

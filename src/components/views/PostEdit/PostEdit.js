@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import axios from "axios";
 import { connect } from "react-redux";
 import {
   getLoadingState,
@@ -30,7 +29,6 @@ class Component extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log("constructor", props);
 
     this.state = {
       post: {},
@@ -45,8 +43,6 @@ class Component extends React.Component {
   }
 
   showAlert(text, color) {
-    console.log("pokaż alert");
-
     this.setState({
       alert: {
         text: text,
@@ -59,8 +55,6 @@ class Component extends React.Component {
   handleSubmit = (returnForm) => {
     const { sendPost } = this.props;
     const { title } = returnForm;
-
-    console.log("returnForm", returnForm);
 
     sendPost(returnForm).then(() =>
       this.showAlert(`Zmieniono pomyśnie ${title}`, "success")

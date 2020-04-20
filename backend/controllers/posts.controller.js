@@ -23,7 +23,6 @@ exports.getOne = async (req, res) => {
 };
 
 exports.getUserPosts = async (req, res) => {
-  console.log("getUserPosts", req.params.user);
   try {
     res.json(await Posts.find({ author: { $eq: req.params.user } }));
   } catch (err) {
@@ -96,7 +95,6 @@ exports.put = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  console.log("delete post", req);
   try {
     const postToDelete = await Posts.findById(req.params.id);
 

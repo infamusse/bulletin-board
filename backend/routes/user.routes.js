@@ -17,11 +17,6 @@ router.get("/logged", (req, res) => {
   }
 });
 
-// router.get("/ok", (req, res) => {
-//   console.log("OK", req.user);
-//   res.json({ message: "dupa" });
-// });
-
 router.get("/logout", (req, res) => {
   req.logout();
   res.redirect(`${process.env.CLIENT_URL}`);

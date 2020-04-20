@@ -5,3 +5,9 @@
   transform: translateX(-50%);
   max-width: 25vw;
 }
+
+@media (max-width: 400px) {
+  .snackbar {
+    max-width: 80%;
+  }
+}

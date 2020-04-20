@@ -1,0 +1,8 @@
+.menuNavbarBarOpen {
+  top: 22vh;
+  transition: 0.4s !important;
+  svg {
+    transition: 0.4s !important;
+    transform: rotate(180deg);
+  }
+}

@@ -40,14 +40,12 @@ export const fetchPostsAPI = () => {
 };
 
 export const fetchPostAPI = (id) => {
-  console.log("fetchPostAPI", id);
   return function (dispatch) {
     dispatch(fetchStarted());
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/post/${id}`)
       .then((response) => {
         const post = response.data;
-        console.log("post", post);
         dispatch(fetchSuccessPost(post));
       })
       .catch((error) => fetchError(error.message));
@@ -55,7 +53,6 @@ export const fetchPostAPI = (id) => {
 };
 
 export const createPost = (post) => {
-  console.log("createPost", post);
   return (dispatch) =>
     axios
       .post(
@@ -72,7 +69,6 @@ export const createPost = (post) => {
 };
 
 export const editPost = (post) => {
-  console.log("editPost", post);
   return (dispatch) =>
     axios
       .put(
