@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -17,6 +17,10 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 const Component = ({ className, children, user }) => {
   const [menu, openMenu] = useState(false);
   const hamburger = useRef(null);
+
+  useEffect(() => {
+    if (window.innerWidth > 400) openMenu(true);
+  }, []);
 
   const showMenu = () => {
     openMenu(!menu);

@@ -19,7 +19,6 @@
 
 @media (max-width: 400px) {
   .navBar {
-    position: fixed;
     flex-direction: column !important;
     height: 20vh;
     width: 100vw;
@@ -29,7 +28,7 @@
   }
 
   .menuNavbarBar {
-    display: block;
+    display: block !important;
     position: fixed;
     right: 30px;
     top: 30px;
